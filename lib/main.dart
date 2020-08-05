@@ -33,20 +33,20 @@ class TransferForm extends StatelessWidget {
             ),
             RaisedButton(
               child: Text('Confirm'),
-              onPressed: () {
-                final int accountNumber =
-                    int.tryParse(_accountNumberFieldController.text);
-                final double value =
-                    double.tryParse(_valueFieldController.text);
-
-                if (accountNumber != null && value != null) {
-                  final transfer = Transfer(value, accountNumber);
-                  debugPrint('$transfer');
-                }
-              },
+              onPressed: () => _createTransfer(),
             )
           ],
         ));
+  }
+
+  void _createTransfer() {
+    final int accountNumber = int.tryParse(_accountNumberFieldController.text);
+    final double value = double.tryParse(_valueFieldController.text);
+
+    if (accountNumber != null && value != null) {
+      final transfer = Transfer(value, accountNumber);
+      debugPrint('$transfer');
+    }
   }
 }
 
