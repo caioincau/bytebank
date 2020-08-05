@@ -4,6 +4,7 @@ void main() => runApp(myApp());
 
 MaterialApp myApp() {
   return MaterialApp(
+    theme: ThemeData.dark(),
     home: TransfersList(),
   );
 }
