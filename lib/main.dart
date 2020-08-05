@@ -29,7 +29,7 @@ class TransferForm extends StatelessWidget {
               controller: _valueFieldController,
               label: 'Value',
               hint: '00.00',
-              icon: Icon(Icons.monetization_on),
+              icon: Icons.monetization_on,
             ),
             RaisedButton(
               child: Text('Confirm'),
@@ -54,7 +54,7 @@ class Editor extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
-  final Icon icon;
+  final IconData icon;
   Editor({
     @required this.controller,
     @required this.label,
@@ -69,8 +69,11 @@ class Editor extends StatelessWidget {
         controller: controller,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 24.0),
-        decoration:
-            InputDecoration(icon: icon, labelText: label, hintText: hint),
+        decoration: InputDecoration(
+          icon: icon != null ? Icon(this.icon) : null,
+          labelText: label,
+          hintText: hint,
+        ),
       ),
     );
   }
