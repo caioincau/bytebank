@@ -8,10 +8,17 @@ MaterialApp myApp() {
   );
 }
 
-class TransferForm extends StatelessWidget {
+class TransferForm extends StatefulWidget {
+  @override
+  _TransferFormState createState() => _TransferFormState();
+}
+
+class _TransferFormState extends State<TransferForm> {
   final TextEditingController _accountNumberFieldController =
       TextEditingController();
+
   final TextEditingController _valueFieldController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +58,14 @@ class TransferForm extends StatelessWidget {
       debugPrint('$transfer');
       Navigator.pop(context, transfer);
     }
+  }
+
+  @override
+  void dispose() {
+    debugPrint('disposing transfer form');
+    _accountNumberFieldController.dispose();
+    _valueFieldController.dispose();
+    super.dispose();
   }
 }
 
