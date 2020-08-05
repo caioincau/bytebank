@@ -4,7 +4,7 @@ void main() => runApp(myApp());
 
 MaterialApp myApp() {
   return MaterialApp(
-    home: TransferForm(),
+    home: TransfersList(),
   );
 }
 
@@ -95,6 +95,11 @@ class TransfersList extends StatelessWidget {
         title: Text('Transfers'),
       ),
       floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return TransferForm();
+          }));
+        },
         child: Icon(Icons.add),
       ),
     );
