@@ -21,21 +21,15 @@ class TransferForm extends StatelessWidget {
         body: Column(
           children: <Widget>[
             Editor(
-                _accountNumberFieldController, 'Account Number', '0000', null),
+              controller: _accountNumberFieldController,
+              label: 'Account Number',
+              hint: '0000',
+            ),
             Editor(
-                _valueFieldController, 'Value', '00.00', Icons.monetization_on),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
-                style: TextStyle(fontSize: 24),
-                controller: _valueFieldController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.monetization_on),
-                  labelText: 'Value',
-                  hintText: '0.00',
-                ),
-              ),
+              controller: _valueFieldController,
+              label: 'Value',
+              hint: '00.00',
+              icon: Icon(Icons.monetization_on),
             ),
             RaisedButton(
               child: Text('Confirm'),
@@ -57,21 +51,26 @@ class TransferForm extends StatelessWidget {
 }
 
 class Editor extends StatelessWidget {
-  final TextEditingController _controller;
-  final String _label;
-  final String _hint;
-  final IconData _icon;
-  Editor(this._controller, this._label, this._hint, this._icon);
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final Icon icon;
+  Editor({
+    @required this.controller,
+    @required this.label,
+    @required this.hint,
+    this.icon,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: TextField(
-        controller: _controller,
+        controller: controller,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 24.0),
-        decoration: InputDecoration(
-            icon: Icon(this._icon), labelText: _label, hintText: _hint),
+        decoration:
+            InputDecoration(icon: icon, labelText: label, hintText: hint),
       ),
     );
   }
