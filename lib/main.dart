@@ -18,34 +18,38 @@ class TransferForm extends StatelessWidget {
         appBar: AppBar(
           title: Text('Creating a transfer'),
         ),
-        body: Column(
-          children: <Widget>[
-            Editor(
-              controller: _accountNumberFieldController,
-              label: 'Account Number',
-              hint: '0000',
-            ),
-            Editor(
-              controller: _valueFieldController,
-              label: 'Value',
-              hint: '00.00',
-              icon: Icons.monetization_on,
-            ),
-            RaisedButton(
-              child: Text('Confirm'),
-              onPressed: () => _createTransfer(),
-            )
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Editor(
+                controller: _accountNumberFieldController,
+                label: 'Account Number',
+                hint: '0000',
+                autofocus: true,
+              ),
+              Editor(
+                controller: _valueFieldController,
+                label: 'Value',
+                hint: '00.00',
+                icon: Icons.monetization_on,
+              ),
+              RaisedButton(
+                child: Text('Confirm'),
+                onPressed: () => _createTransfer(context),
+              )
+            ],
+          ),
         ));
   }
 
-  void _createTransfer() {
+  void _createTransfer(BuildContext context) {
     final int accountNumber = int.tryParse(_accountNumberFieldController.text);
     final double value = double.tryParse(_valueFieldController.text);
 
     if (accountNumber != null && value != null) {
       final transfer = Transfer(value, accountNumber);
       debugPrint('$transfer');
+      Navigator.pop(context, transfer);
     }
   }
 }
@@ -55,17 +59,20 @@ class Editor extends StatelessWidget {
   final String label;
   final String hint;
   final IconData icon;
+  final bool autofocus;
   Editor({
     @required this.controller,
     @required this.label,
     @required this.hint,
     this.icon,
+    this.autofocus = false,
   });
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: TextField(
+        autofocus: autofocus,
         controller: controller,
         keyboardType: TextInputType.number,
         style: TextStyle(fontSize: 24.0),
@@ -79,26 +86,43 @@ class Editor extends StatelessWidget {
   }
 }
 
-class TransfersList extends StatelessWidget {
+class TransfersList extends StatefulWidget {
+  final List<Transfer> _transfers = List();
+  @override
+  State<StatefulWidget> createState() {
+    return TransferListState();
+  }
+}
+
+class TransferListState extends State<TransfersList> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          TransferItem(Transfer(100, 1000)),
-          TransferItem(Transfer(99, 1000)),
-          TransferItem(Transfer(223, 1000))
-        ],
+      body: ListView.builder(
+        itemCount: widget._transfers.length,
+        itemBuilder: (context, index) {
+          final transfer = widget._transfers[index];
+          return new TransferItem(transfer);
+        },
       ),
       appBar: AppBar(
         title: Text('Transfers'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
+          final Future future =
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
             return TransferForm();
           }));
+          future.then((transferReceived) {
+            debugPrint('arrived at then of the future');
+            debugPrint('$transferReceived');
+            setState(() {
+              if (transferReceived != null) {
+                widget._transfers.add(transferReceived);
+              }
+            });
+          });
         },
         child: Icon(Icons.add),
       ),
