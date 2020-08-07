@@ -13,7 +13,33 @@ class BytebankApp extends StatelessWidget {
           builder: (context, child, model) => MaterialApp(
             theme: model.darkMode ? ThemeData.dark() : defaultTheme(),
             home: Scaffold(
-              body: TransfersList(),
+              appBar: AppBar(
+                title: Text('Dashboard'),
+              ),
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.asset('images/bytebank_logo.png'),
+                  ),
+                  Container(
+                    height: 120,
+                    width: 100,
+                    color: Colors.green,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.people,
+                        ),
+                        Text('Contacts')
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ));
