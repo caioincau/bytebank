@@ -1,7 +1,9 @@
 import 'package:bytebank/components/transfer_item.dart';
+import 'package:bytebank/main.dart';
 import 'package:bytebank/models/transfer.dart';
 import 'package:bytebank/screens/transfer/form.dart';
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class TransfersList extends StatefulWidget {
   final List<Transfer> _transfers = List();
@@ -10,6 +12,7 @@ class TransfersList extends StatefulWidget {
     return TransferListState();
   }
 }
+
 class TransferListState extends State<TransfersList> {
   @override
   Widget build(BuildContext context) {
@@ -23,11 +26,23 @@ class TransferListState extends State<TransfersList> {
       ),
       appBar: AppBar(
         title: Text('Transfers'),
+        actions: [
+          ScopedModelDescendant<DarkModeModel>(
+              builder: (context, snapshot, model) {
+            return new IconButton(
+              icon: Icon(Icons.lightbulb_outline),
+              onPressed: () {
+                model.toggle();
+                debugPrint('clicked on the bulb');
+              },
+            );
+          })
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final Future future =
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
             return TransferForm();
           }));
           future.then((transferReceived) {
