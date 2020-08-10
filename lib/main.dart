@@ -3,8 +3,12 @@ import 'package:bytebank/screens/contacts/list.dart';
 import 'package:bytebank/screens/contacts/contact.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'database/app_database.dart';
 
-void main() => runApp(BytebankApp());
+void main() {
+  runApp(BytebankApp());
+  createDatabase();
+}
 
 class BytebankApp extends StatelessWidget {
   @override
