@@ -1,3 +1,4 @@
+import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/transfer/dashboard.dart';
 import 'package:bytebank/screens/contacts/list.dart';
 import 'package:bytebank/screens/contacts/contact.dart';
@@ -7,7 +8,11 @@ import 'database/app_database.dart';
 
 void main() {
   runApp(BytebankApp());
-  createDatabase();
+  save(Contact(0, 'Alex', 1000)).then((id) {
+    findAll().then((contacts) {
+      debugPrint(contacts.toString());
+    });
+  });
 }
 
 class BytebankApp extends StatelessWidget {
