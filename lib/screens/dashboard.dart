@@ -32,21 +32,30 @@ class Dashboard extends StatelessWidget {
               );
             },
           ),
-          Row(
-            children: <Widget>[
-              _FeatureItem(
-                'Transfer',
-                Icons.monetization_on,
-                onClick: (context) {
-                  _showsContactsList(context);
-                },
-              ),
-              _FeatureItem(
-                'Transaction Feed',
-                Icons.description,
-                onClick: () {},
-              ),
-            ],
+          Container(
+            height: 120,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                _FeatureItem(
+                  'Transfer',
+                  Icons.monetization_on,
+                  onClick: (context) {
+                    _showsContactsList(context);
+                  },
+                ),
+                _FeatureItem(
+                  'Transaction Feed',
+                  Icons.description,
+                  onClick: () {},
+                ),
+                _FeatureItem(
+                  'Transaction Feed',
+                  Icons.description,
+                  onClick: () {},
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -88,7 +97,6 @@ class _FeatureItem extends StatelessWidget {
           },
           child: Container(
             padding: const EdgeInsets.all(8.0),
-            height: 100,
             width: 150,
             color: Theme.of(context).primaryColor,
             child: Column(
