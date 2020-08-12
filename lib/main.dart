@@ -1,50 +1,23 @@
-import 'package:bytebank/models/contact.dart';
-import 'package:bytebank/screens/transfer/dashboard.dart';
-import 'package:bytebank/screens/contacts/list.dart';
-import 'package:bytebank/screens/contacts/contact.dart';
+import 'package:bytebank/screens/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'database/app_database.dart';
 
 void main() {
   runApp(BytebankApp());
-  save(Contact(0, 'Alex', 1000)).then((id) {
-    findAll().then((contacts) {
-      debugPrint(contacts.toString());
-    });
-  });
 }
 
 class BytebankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new ScopedModel<DarkModeModel>(
-        model: DarkModeModel(),
-        child: ScopedModelDescendant<DarkModeModel>(
-          builder: (context, child, model) => MaterialApp(
-            theme: model.darkMode ? ThemeData.dark() : defaultTheme(),
-            home: Dashboard(),
-          ),
-        ));
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.green[900],
+        accentColor: Colors.blueAccent[700],
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blueAccent[700],
+          textTheme: ButtonTextTheme.primary,
+        ),
+      ),
+      home: Dashboard(),
+    );
   }
-}
-
-class DarkModeModel extends Model {
-  bool darkMode = false;
-
-  void toggle() {
-    darkMode = !darkMode;
-    notifyListeners();
-  }
-}
-
-ThemeData defaultTheme() {
-  return ThemeData(
-    primaryColor: Colors.green[900],
-    accentColor: Colors.blueAccent[700],
-    buttonTheme: ButtonThemeData(
-      buttonColor: Colors.blueAccent[700],
-      textTheme: ButtonTextTheme.primary,
-    ),
-  );
 }
