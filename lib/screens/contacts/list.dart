@@ -1,4 +1,3 @@
-import 'package:bytebank/database/app_database.dart';
 import 'package:bytebank/database/contact_dao.dart';
 import 'package:bytebank/models/contact.dart';
 import 'package:bytebank/screens/contacts/form.dart';
@@ -62,11 +61,13 @@ class _ContactListState extends State<ContactList> {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
+          Navigator.of(context)
+              .push(
             MaterialPageRoute(
               builder: (context) => ContactForm(),
             ),
-          ).then((value){
+          )
+              .then((value) {
             setState(() {});
           });
         },

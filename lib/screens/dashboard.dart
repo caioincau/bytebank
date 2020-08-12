@@ -1,12 +1,11 @@
+import 'package:bytebank/screens/transactions/list.dart';
 import 'package:flutter/material.dart';
-
 import 'contacts/list.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({
     Key key,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,21 +37,14 @@ class Dashboard extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: [
                 _FeatureItem(
-                  'Transfer',
+                  "Transfer",
                   Icons.monetization_on,
-                  onClick: (context) {
-                    _showsContactsList(context);
-                  },
+                  onTap: () => _showContactList(context),
                 ),
                 _FeatureItem(
-                  'Transaction Feed',
+                  "Transaction Feed",
                   Icons.description,
-                  onClick: () {},
-                ),
-                _FeatureItem(
-                  'Transaction Feed',
-                  Icons.description,
-                  onClick: () {},
+                  onTap: () => _showTransactionList(context),
                 ),
               ],
             ),
@@ -62,10 +54,18 @@ class Dashboard extends StatelessWidget {
     );
   }
 
-  void _showsContactsList(context) {
-    Navigator.of(context).push(
+  Future _showContactList(BuildContext context) {
+    return Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ContactList(),
+      ),
+    );
+  }
+
+  Future _showTransactionList(BuildContext context) {
+    return Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TransactionsList(),
       ),
     );
   }
@@ -73,13 +73,9 @@ class Dashboard extends StatelessWidget {
 
 class _FeatureItem extends StatelessWidget {
   final IconData icon;
-
-  final String name;
-
-  final Function onClick;
-
-  const _FeatureItem(this.name, this.icon, {@required this.onClick});
-
+  final String title;
+  final Function onTap;
+  const _FeatureItem(this.title, this.icon, {@required this.onTap});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -87,14 +83,7 @@ class _FeatureItem extends StatelessWidget {
       child: Material(
         color: Theme.of(context).primaryColor,
         child: InkWell(
-          onTap: () {
-            onClick();
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ContactList(),
-              ),
-            );
-          },
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(8.0),
             width: 150,
@@ -104,12 +93,12 @@ class _FeatureItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Icon(
-                  icon,
+                  this.icon,
                   color: Colors.white,
                   size: 24,
                 ),
                 Text(
-                  name,
+                  this.title,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -119,14 +108,6 @@ class _FeatureItem extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showsContactsList(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => ContactList(),
       ),
     );
   }
