@@ -4,26 +4,43 @@ import 'package:bytebank/screens/contacts/contact.dart';
 import 'package:bytebank/database/app_database.dart';
 
 class ContactList extends StatelessWidget {
-  final List<Contact> contacts = List();
-
   @override
   Widget build(BuildContext context) {
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
-    contacts.add(Contact(0, 'Alex', 1000));
     return Scaffold(
       appBar: AppBar(
         title: Text('Contacts'),
       ),
-      body: ListView.builder(
-        itemCount: contacts.length,
-        itemBuilder: (BuildContext context, int index) {
-          final Contact contact = contacts[index];
-          return _ContactItem(contact);
-        },
-      ),
+      body: FutureBuilder<List<Contact>>(
+          initialData: List<Contact>(),
+          future: findAll(),
+          builder: (context, snapshot) {
+            List<Contact> contacts = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      CircularProgressIndicator(),
+                      Text('Loading'),
+                    ],
+                  ),
+                );
+                break;
+              case ConnectionState.done:
+                return ListView.builder(
+                  itemCount: contacts != null ? contacts.length : 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    final Contact contact = contacts[index];
+                    return _ContactItem(contact);
+                  },
+                );
+                break;
+              default:
+                return Text('Unknow error');
+            }
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
